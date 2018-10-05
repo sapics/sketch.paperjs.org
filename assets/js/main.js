@@ -1,10 +1,11 @@
 
 (function() {
-	var PAPERJS_VERSIONS = [
+	var DEFAULT_PAPERJS_VERSION,
+		PAPERJS_VERSIONS = [
 		'prebuilt',
 		'0.11.5',
 		'0.11.4',
-		'0.11.3',
+		DEFAULT_PAPERJS_VERSION = '0.11.3',
 		'0.11.2',
 		'0.11.1',
 		'0.11.0',
@@ -32,7 +33,7 @@
 		'0.9.6',
 		'0.9.5'
 	];
-	var paperjs_version = PAPERJS_VERSIONS[1];
+	var paperjs_version = DEFAULT_PAPERJS_VERSION;
 	if (location.hash) {
 		var paperjs_version_reg = /^V\/(prebuilt|[\d\.]+)\/?/;
 		var tmp = paperjs_version_reg.exec(location.hash.slice(1));
@@ -42,19 +43,20 @@
 		}
 	}
 
-	var scriptEle = document.createElement('script');
-	scriptEle.type = 'text/javascript';
-	var url;
-	if(PAPERJS_VERSIONS.indexOf(paperjs_version) === 0) {
-		url = 'https://rawgit.com/paperjs/paper.js/prebuilt/module/dist/paper-full.js';
-	} else {
-		url = 'https://cdnjs.cloudflare.com/ajax/libs/paper.js/' + paperjs_version + '/paper-full.min.js'
+	if(paperjs_version !== DEFAULT_PAPERJS_VERSION){
+		var scriptEle = document.createElement('script');
+		scriptEle.type = 'text/javascript';
+		var url;
+		if(PAPERJS_VERSIONS.indexOf(paperjs_version) === 0) {
+			url = 'https://rawgit.com/paperjs/paper.js/prebuilt/module/dist/paper-full.js';
+		} else {
+			url = 'https://cdnjs.cloudflare.com/ajax/libs/paper.js/' + paperjs_version + '/paper-full.min.js'
+		}
+		document.head.appendChild(scriptEle);
+		scriptEle.src = url;
 	}
-	document.head.appendChild(scriptEle);
-	scriptEle.src = url;
-	$(scriptEle).on('load',
 
-(function() {
+function paperjsLoaded() {
 // Settings
 
 var hitTolerance = 4;
@@ -948,4 +950,9 @@ $(function() {
 	createPaperScript($('.paperscript'));
 });
 
-}))})();
+}
+
+if(scriptEle) $(scriptEle).on('load', scriptLoaded);
+else scriptLoaded()
+
+})();
