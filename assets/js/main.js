@@ -48,7 +48,7 @@
 	if(PAPERJS_VERSIONS.indexOf(paperjs_version) === 0) {
 		url = 'https://rawgit.com/paperjs/paper.js/prebuilt/module/dist/paper-full.js';
 	} else {
-		url = 'https://cdnjs.cloudflare.com/ajax/libs/paper.js/' + paperjs_version + '/paper-full.min.js'
+		url = 'https://cdnjs.cloudflare.com/ajax/libs/paper.js/' + paperjs_version + '/paper-full.js'
 	}
 	document.head.appendChild(scriptEle);
 	scriptEle.src = url;
